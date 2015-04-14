@@ -1,0 +1,12 @@
+﻿<Window x:Name="Snake" x:Class="Snake_TZWKTT.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Snake" Height="300" Width="300">
+    <Grid>
+        <Button  Content="Start" HorizontalAlignment="Left" Height="40.298" Margin="84.059,61.06,0,0" VerticalAlignment="Top" Width="108.956" FontFamily="Showcard Gothic" Click="Button_Click"/>
+        <Button Content="Score List" HorizontalAlignment="Left" Height="40.298" Margin="84.059,186.433,0,0" VerticalAlignment="Top" Width="108.956" FontFamily="Showcard Gothic" Click="Button_Click_1"/>
+        <Button Content="Options" HorizontalAlignment="Left" Height="40.298" Margin="84.059,120.761,0,0" VerticalAlignment="Top" Width="108.956" FontFamily="Showcard Gothic" Click="Button_Option_Click"/>
+        <Label Content="  SNAKE GAME" HorizontalAlignment="Left" Height="46.06" Margin="70.626,10,0,0" VerticalAlignment="Top" Width="147.762" FontFamily="Showcard Gothic" FontSize="18"/>
+
+    </Grid>
+</Window>
