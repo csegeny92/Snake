@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApplication1;
+using SnakeGame;
 
 
 namespace Snake_TZWKTT
@@ -55,7 +55,7 @@ namespace Snake_TZWKTT
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            WpfApplication1.Window1 Jatek = new Window1(thickness, pace);
+            SnakeGame.Window1 Jatek = new Window1(thickness, pace);
             //this.Close();
            
             Jatek.ShowDialog();

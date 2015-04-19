@@ -12,52 +12,64 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Snake_TZWKTT;
 using System.Windows.Media.Imaging;
+using System.ComponentModel;
 
-namespace WpfApplication1
+namespace SnakeGame
 {
-    public partial class Window1 : Window
+    public partial class Window1 : Window, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        public void OnPropertyChanged(string PropertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
+            }
+        }
 
         private List<Point> bonusPoints = new List<Point>();
         private List<Point> snakePoints = new List<Point>();
 
-        private Brush snakeColor = Brushes.Green;
+        private readonly Brush snakeColor = Brushes.Green;
 
-        private enum SIZE
+        public enum SIZE
         {
             THIN = 4,
             NORMAL = 6,
             THICK = 8
-        };
-        private enum MOVINGDIRECTION
+        }
+        public enum PACE
+        {
+            VERYSLOW,
+            SLOW,
+            NORMAL,
+            FAST
+        }
+        public enum MOVINGDIRECTION
         {
             UP = 8,
             DOWN = 2,
             LEFT = 4,
             RIGHT = 6
-        };
-        public enum PACE
-        {
-            VERYSLOW = 5,
-            SLOW = 35000,
-            NORMAL = 20000,
-            FAST = 10000
-        };
+        }
 
-        private Point startingPoint = new Point(200, 200);
+        private readonly Point startingPoint = new Point(200, 200);
         private Point currentPosition = new Point();
 
         private int direction = 0;
 
         private int previousDirection = 0;
-
         private int headSize;
-
-        private int length = 100;
+        private int length = 10;
         private int score = 0;
+
+
         private Random rnd = new Random();
         private DispatcherTimer timer;
+
+        private int thickness;
+        private int pace;
 
         public DispatcherTimer Timer
         {
@@ -65,16 +77,17 @@ namespace WpfApplication1
             set { timer = value; }
         }
 
-        private int thickness;
-        private int pace;
-
+        public int Score
+        {
+            get { return score; }
+            set { score = value; OnPropertyChanged("Score"); }
+        }
+        
         public Window1(int thickness, int pace)
         {
             InitializeComponent();
-            this.thickness = thickness;
-            this.pace = pace;
-
             timer = new DispatcherTimer();
+
             switch (thickness)
             {
                 case 1:
@@ -92,23 +105,32 @@ namespace WpfApplication1
             switch (pace)
             {
                 case 0:
-
-                    timer.Interval = new TimeSpan(50000);
+                    timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
                     break;
                 case 1:
-                    timer.Interval = new TimeSpan(10000);
+                    timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
                     break;
                 case 2:
-                    timer.Interval = new TimeSpan((int)PACE.NORMAL);
+                    timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
                     break;
                 case 3:
-                    timer.Interval = new TimeSpan((int)PACE.FAST);
+                    timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
                     break;
                 default:
                     break;
             }
 
 
+            this.DataContext = this;
+
+            ImageBrush ib = new ImageBrush();
+            ib.ImageSource = new BitmapImage(new Uri(@"background.jpg", UriKind.Relative));
+            paintCanvas.Background = ib;
+
+            this.thickness = thickness;
+            this.pace = pace;
+
+            
             timer.Tick += new EventHandler(timer_Tick);
             timer.Start();
 
@@ -152,7 +174,7 @@ namespace WpfApplication1
 
         private void paintBonus(int index)
         {
-            Point bonusPoint = new Point(rnd.Next(5, 620), rnd.Next(5, 380));
+            Point bonusPoint = new Point(rnd.Next(5, 620), rnd.Next(5, 330));
             byte[] buffer = File.ReadAllBytes("apple.png");
             MemoryStream memoryStream = new MemoryStream(buffer);
             BitmapImage bitmap = new BitmapImage();
@@ -184,26 +206,26 @@ namespace WpfApplication1
                 switch (direction)
                 {
                     case (int)MOVINGDIRECTION.DOWN:
-                        currentPosition.Y += 1;
+                        currentPosition.Y += 5;
                         paintSnake(currentPosition);
                         break;
                     case (int)MOVINGDIRECTION.UP:
-                        currentPosition.Y -= 1;
+                        currentPosition.Y -= 5;
                         paintSnake(currentPosition);
                         break;
                     case (int)MOVINGDIRECTION.LEFT:
-                        currentPosition.X -= 1;
+                        currentPosition.X -= 5;
                         paintSnake(currentPosition);
                         break;
                     case (int)MOVINGDIRECTION.RIGHT:
-                        currentPosition.X += 1;
+                        currentPosition.X += 5;
                         paintSnake(currentPosition);
                         break;
                 }
 
 
-                if ((currentPosition.X < 0) || (currentPosition.X > 630) ||
-                    (currentPosition.Y < 0) || (currentPosition.Y > 390))
+                if ((currentPosition.X < 0) || (currentPosition.X > 620) ||
+                    (currentPosition.Y < 0) || (currentPosition.Y > 340))
                 {
                     GameOver();
                 }
@@ -214,11 +236,11 @@ namespace WpfApplication1
                 foreach (Point point in bonusPoints)
                 {
 
-                    if ((Math.Abs(point.X - currentPosition.X) < headSize) && 
-                        (Math.Abs(point.Y - currentPosition.Y) < headSize))
+                    if ((Math.Abs(point.X - currentPosition.X) < headSize*2) && 
+                        (Math.Abs(point.Y - currentPosition.Y) < headSize*2))
                     {
                         length += 10;
-                        score += 10;
+                        Score += 10;
 
                         
                         bonusPoints.RemoveAt(n);
@@ -232,8 +254,8 @@ namespace WpfApplication1
                 for (int q = 0; q < (snakePoints.Count - headSize*2); q++)
                 {
                     Point point = new Point(snakePoints[q].X, snakePoints[q].Y);
-                    if ((Math.Abs(point.X - currentPosition.X) < (headSize)) &&
-                         (Math.Abs(point.Y - currentPosition.Y) < (headSize)) )
+                    if ((Math.Abs(point.X - currentPosition.X) < (headSize/1.5)) &&
+                         (Math.Abs(point.Y - currentPosition.Y) < (headSize/1.5)) )
                     {
                         GameOver();
                         break;
@@ -286,53 +308,21 @@ namespace WpfApplication1
             
             if (name.DialogResult.HasValue && name.DialogResult.Value)
             {
-                player = new ScoreLists(name.TextBox_Name.Text, score);
+                player = new ScoreLists(name.TextBox_Name.Text, Score);
                 fs = new FileStream("scorelist.txt", FileMode.Append);
                 sw = new StreamWriter(fs);
 
                 sw.WriteLine(player.ToString());
                 sw.Close();
                 fs.Close();
-                MessageBox.Show("You Lose! Your score is " + score.ToString(), "Game Over", MessageBoxButton.OK, MessageBoxImage.Hand);
+                MessageBox.Show("You Lose! Your score is " + Score.ToString(), "Game Over", MessageBoxButton.OK, MessageBoxImage.Hand);
             }
            
             this.Close();
         }
 
-        private void paintCanvas_Loaded(object sender, RoutedEventArgs e)
-        {
-            //switch (thickness)
-            //{
-            //    case 1:
-            //        headSize = (int)SIZE.THIN;
-            //        break;
-            //    case 2:
-            //        headSize = (int)SIZE.NORMAL;
-            //        break;
-            //    case 3:
-            //        headSize = (int)SIZE.THICK;
-            //        break;
-            //    default:
-            //        break;
-            //}
-            //switch (pace)
-            //{
-            //    case 0:
-            //        timer.Interval = new TimeSpan(15000);
-            //        break;
-            //    case 1:
-            //        timer.Interval = new TimeSpan(13000);
-            //        break;
-            //    case 2:
-            //        timer.Interval = new TimeSpan(10000);
-            //        break;
-            //    case 3:
-            //        timer.Interval = new TimeSpan(10000);
-            //        break;
-            //    default:
-            //        break;
-            //}
-        }
+
+       
     }
 }
 

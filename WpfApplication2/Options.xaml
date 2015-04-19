@@ -1,21 +1,42 @@
 ﻿<Window x:Class="Snake_TZWKTT.Options"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Options" Height="370.149" Width="373.134">
-    <Grid Margin="0,0,-8,-1.493">
-        <Label Content="OptionS" HorizontalAlignment="Left" Height="34.642" Margin="128.836,10,0,0" VerticalAlignment="Top" Width="107.463" FontFamily="Showcard Gothic" FontSize="18" RenderTransformOrigin="0.792,0.655"/>
-        <Label Content="Snake thickness:" HorizontalAlignment="Left" Height="29.85" Margin="10,61.06,0,0" VerticalAlignment="Top" Width="154" FontSize="16" FontFamily="Showcard Gothic"/>
-        <Label Content="Snake Pace:" HorizontalAlignment="Left" Height="29.85" Margin="10,149.641,0,0" VerticalAlignment="Top" Width="99.433" FontSize="16" FontFamily="Showcard Gothic"/>
-        <RadioButton x:Name="RButton_Thin" Content="Thin" HorizontalAlignment="Left" Margin="111.09,95.91,0,0" VerticalAlignment="Top" FontFamily="Showcard Gothic"/>
-        <RadioButton x:Name="RButton_Normal" Content="Normal" HorizontalAlignment="Left" Margin="111.09,115.87,0,0" VerticalAlignment="Top" IsChecked="True" FontFamily="Showcard Gothic"/>
-        <RadioButton x:Name="RButton_Thick" Content="Thick" HorizontalAlignment="Left" Margin="111.09,137.691,0,0" VerticalAlignment="Top" FontFamily="Showcard Gothic"/>
-        <ComboBox x:Name="ComboBoxPace" HorizontalAlignment="Left" Height="25.823" Margin="109.433,184.491,0,0" VerticalAlignment="Top" Width="126.866" SelectedIndex="2">
+        Title="Options" Height="500" Width="373.134">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="Options" HorizontalAlignment="Center" Height="34.642" Margin="10" VerticalAlignment="Top" Width="107.463" FontFamily="Showcard Gothic" FontSize="18" RenderTransformOrigin="0.792,0.655"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="Snake thickness:" HorizontalAlignment="Left" Height="2529.85" Margin="10" VerticalAlignment="Top"  FontSize="16" FontFamily="Showcard Gothic"/>
+            <RadioButton Grid.Row="1" x:Name="RButton_Thin" Content="Thin" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" FontFamily="Showcard Gothic"/>
+            <RadioButton Grid.Row="2" x:Name="RButton_Normal" Content="Normal" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" IsChecked="True" FontFamily="Showcard Gothic"/>
+            <RadioButton Grid.Row="3" x:Name="RButton_Thick" Content="Thick" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" FontFamily="Showcard Gothic"/>
+
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="Snake Pace:" HorizontalAlignment="Left" Height="30" Margin="10" VerticalAlignment="Center" FontSize="16" FontFamily="Showcard Gothic"/>
+         <ComboBox Grid.Row="1" x:Name="ComboBoxPace" HorizontalAlignment="Center" Height="25.823" Margin="10" VerticalAlignment="Top" Width="126.866" SelectedIndex="2">
             <Label Content="Very Slow"/>
             <Label Content="Slow"/>
             <Label Content="Normal"/>
             <Label Content="Fast"/>
         </ComboBox>
-        <Button Content="START" HorizontalAlignment="Left" Height="49.253" Margin="88.537,255.09,0,0" VerticalAlignment="Top" Width="177.612" FontSize="18" FontFamily="Showcard Gothic" Click="Button_Click"/>
+        </Grid>
+        <Button Grid.Row="3" Content="START" HorizontalAlignment="Center" Height="50" Margin="10" VerticalAlignment="Center" Width="150" FontSize="18" FontFamily="Showcard Gothic" Click="Button_Click"/>
 
     </Grid>
 </Window>

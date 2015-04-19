@@ -1,13 +1,16 @@
-﻿<Window x:Class="WpfApplication1.Window1"
+﻿<Window x:Class="SnakeGame.Window1"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Snake!" Height="422" Width="642" ResizeMode="NoResize">
-    <Grid Background="Black">
+    <Grid Background="White">
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Canvas Name="paintCanvas" Background="Black" 
-                Grid.Column="1" HorizontalAlignment="Stretch" MaxWidth="642" MaxHeight="422" Loaded="paintCanvas_Loaded" Margin="0,0,0,12"></Canvas>
+                Grid.Column="1" HorizontalAlignment="Stretch" MaxWidth="642" MaxHeight="422" Margin="0,0,0,30"></Canvas>
+        <Label Content="Your Score:" Grid.Column="1" HorizontalAlignment="Left" Margin="517,357,0,0" VerticalAlignment="Top"/>
+        <Label Content="{Binding Score}" Grid.Column="1" HorizontalAlignment="Left" Margin="592,358,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.3,1.3" Height="25" Width="34"/>
     </Grid>
 </Window>

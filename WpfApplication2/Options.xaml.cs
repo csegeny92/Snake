@@ -1,4 +1,5 @@
 ﻿using System;
+using SnakeGame;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,14 +14,20 @@ using System.Windows.Shapes;
 
 namespace Snake_TZWKTT
 {
+
+
+
     /// <summary>
     /// Interaction logic for Options.xaml
     /// </summary>
     public partial class Options : Window
     {
+
+
         public Options()
         {
             InitializeComponent();
+            //ComboBoxPace.ItemsSource = Enum.GetValues(typeof(PACE)).Cast<PACE>();
         }
 
         
@@ -54,8 +61,13 @@ namespace Snake_TZWKTT
                 thickness = 3;
             }
             pace = ComboBoxPace.SelectedIndex;
-            WpfApplication1.Window1 Jatek = new WpfApplication1.Window1(thickness, pace);
+            SnakeGame.Window1 Jatek = new SnakeGame.Window1(thickness, pace);
             Jatek.ShowDialog();
+            if (!DialogResult.HasValue || !DialogResult.Value)
+            {
+                Jatek.Close();
+                Jatek.Timer.Stop();
+            }
             //this.Close();
             DialogResult = true;
             
